@@ -12,10 +12,8 @@ import sit.kmutt.demo_exam2_int204.configs.FileStorageProperties;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +96,29 @@ public class DemoFileService {
                 || contentType.equals("image/png")
                 || contentType.equals("image/jpg")
                 || contentType.equals("image/jpeg");
+    }
+
+    public List<String> getMatchedFiles(String pattern) {
+        List<String> matchesList = new ArrayList<String>();
+        FileVisitor<Path> matcherVisitor = new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attribs)
+                    throws IOException {
+                FileSystem fs = FileSystems.getDefault();
+                PathMatcher matcher = fs.getPathMatcher("glob:"+pattern);
+                Path name = file.getFileName();
+                if (matcher.matches(name)) {
+                    matchesList.add(name.toString());
+                }
+                return FileVisitResult.CONTINUE;
+            }
+        };
+        try {
+            Files.walkFileTree(this.fileStorageLocation, matcherVisitor);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+        return matchesList;
     }
 
 }
