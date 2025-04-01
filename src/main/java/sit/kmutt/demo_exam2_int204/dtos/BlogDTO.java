@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-public class BlogDto {
+public class BlogDTO {
     @NotBlank
     private String title;
 

@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleAllUncaughtException(ItemNotFoundException ex, HttpServletRequest request) {
+    public ErrorResponse handleAllUncaughtException(Exception ex, HttpServletRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Unknown error occurred",
                 request.getRequestURI());

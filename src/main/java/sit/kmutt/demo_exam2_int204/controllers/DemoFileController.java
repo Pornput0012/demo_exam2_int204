@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sit.kmutt.demo_exam2_int204.configs.FileStorageProperties;
-import sit.kmutt.demo_exam2_int204.dtos.BlogDto;
+import sit.kmutt.demo_exam2_int204.dtos.BlogDTO;
 import sit.kmutt.demo_exam2_int204.services.DemoDtoAndModelMapService;
 import sit.kmutt.demo_exam2_int204.services.DemoFileService;
 
@@ -36,7 +36,7 @@ public class DemoFileController {
     }
 
     @PostMapping("/demo1")
-    public ResponseEntity<Object> fileUploadForm1(@ModelAttribute BlogDto blogDto,
+    public ResponseEntity<Object> fileUploadForm1(@ModelAttribute BlogDTO blogDto,
                                                   @RequestParam("file") MultipartFile file) {
         demoFileService.uploadFile(file);
         demoDtoAndModelMapService.addBlogDto(blogDto);
@@ -44,14 +44,14 @@ public class DemoFileController {
     }
 
     @PostMapping("/demo2")
-    public ResponseEntity<Object> fileUploadForm1(@ModelAttribute BlogDto blogDto) {
+    public ResponseEntity<Object> fileUploadForm1(@ModelAttribute BlogDTO blogDto) {
         demoFileService.uploadFile(blogDto.getImage());
         demoDtoAndModelMapService.addBlogDto(blogDto);
         return ResponseEntity.ok(blogDto);
     }
 
     @PostMapping("/demo3")
-    public ResponseEntity<Object> createUserDemo2( @ModelAttribute BlogDto blogDto
+    public ResponseEntity<Object> createUserDemo2( @ModelAttribute BlogDTO blogDto
             , @RequestPart List<MultipartFile> files) {
         demoFileService.uploadFile(files);
         return ResponseEntity.ok(blogDto);
